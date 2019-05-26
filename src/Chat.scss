@@ -40,6 +40,10 @@
   flex-grow: 1;
 }
 
+::-webkit-scrollbar {
+  display: none;
+}
+
 .dayrp-chat__input {
   box-sizing: border-box;
   padding: 0 10px;
@@ -55,7 +59,9 @@
   color: #000;
   border-radius: 3px;
   margin: 3px 1px 1px;
-  padding: 5px 20px 5px 10px;
+  padding: 2px 20px 2px 5px;
+  font-size: 10px;
+  font-weight: bold;
 
   &:after {
     position: absolute;
@@ -63,10 +69,10 @@
     width: 0;
     height: 0;
     right: 6px;
-    top: 10px;
-    border-top: 5px solid black;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
+    top: 7px;
+    border-top: 3px solid black;
+    border-left: 3px solid transparent;
+    border-right: 3px solid transparent;
   }
 }
 

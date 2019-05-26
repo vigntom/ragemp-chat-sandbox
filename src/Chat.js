@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+/* globals mp */
+import React, { useState, useEffect } from 'react'
 import RndChat from './RndChat'
 import './Chat.scss'
 
@@ -58,22 +59,50 @@ function SettingsPopup ({ isActive, settings, closePopup, setOption }) {
   )
 }
 
+function ChatInput ({ isActive, toggle }) {
+  const [value, setValue] = useState('')
+
+  function chatSubmit (event) {
+    event.preventDefault()
+    mp.trigger('foobar', value)
+    setValue('')
+    return toggle()
+  }
+
+  function updateValue (event) {
+    setValue(event.target.value)
+  }
+
+  if (!isActive) return null
+
+  return (
+    <form className={"dayrp-chat__form"} onSubmit={chatSubmit}>
+      <input className="dayrp-chat__input" onChange={updateValue} type="text" name="replay" autoFocus/>
+    </form>
+  )
+}
+
 function DayRPChat () {
   const defaultSettings = {
     fontSize: 12,
-    channels: [{
-      name: 'server',
-      color: 'orange'
-    }, {
-      name: 'faction',
-      color: 'blue',
-    }, {
-      name: 'branch',
-      color: 'green'
-    }]
+    channels: [
+      { name: 'server', color: 'orange' },
+      { name: 'faction', color: 'blue' },
+      { name: 'branch', color: 'green' }
+    ]
   }
   const [isSettings, setIsSettings] = useState(false)
   const [settings, setSettings] = useState(defaultSettings)
+  const [inputActive, setInputActive] = useState(false)
+
+  useEffect(() => {
+    document.querySelector('body').addEventListener('keydown', event => {
+      if (event.keyCode === 84) {
+        event.preventDefault()
+        return setInputActive(!inputActive)
+      }
+    })
+  })
 
   function toggleIsSettings (event) {
     return setIsSettings(!isSettings)
@@ -89,10 +118,6 @@ function DayRPChat () {
     }
   }
 
-  function chatSubmit (event) {
-    event.preventDefault()
-  }
-
   return (
       <div className="dayrp-chat__container" style={{ fontSize: settings.fontSize }}>
         <div className="dayrp-chat__drag-handle">
@@ -103,26 +128,10 @@ function DayRPChat () {
         </div>
 
         <ul className="dayrp-chat">
-          <li className="dayrp-chat__msg">Welcome to DayRP server!</li>
-          <li className="dayrp-chat__msg">Welcome to DayRP server!</li>
-          <li className="dayrp-chat__msg">Welcome to DayRP aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa server!</li>
-          <li className="dayrp-chat__msg">Welcome to DayRP server!</li>
-          <li className="dayrp-chat__msg">Welcome to DayRP server!</li>
-          <li className="dayrp-chat__msg">Welcome to DayRP server!</li>
-          <li className="dayrp-chat__msg">Welcome to DayRP server!</li>
-          <li className="dayrp-chat__msg">Welcome to DayRP server!</li>
-          <li className="dayrp-chat__msg">Welcome to DayRP server!</li>
-          <li className="dayrp-chat__msg">Welcome to DayRP server!</li>
-          <li className="dayrp-chat__msg">Welcome to DayRP server!</li>
-          <li className="dayrp-chat__msg">Welcome to DayRP server!</li>
-          <li className="dayrp-chat__msg">Welcome to DayRP server!</li>
-          <li className="dayrp-chat__msg">Welcome to DayRP server!</li>
-          <li className="dayrp-chat__msg">Welcome to DayRP server!</li>
+          <li className="dayrp-chat__msg">[Server] Welcome to DayRP server!</li>
         </ul>
 
-        <form className="dayrp-chat__form is-hidden" onSubmit={chatSubmit}>
-          <input className="dayrp-chat__input" type="text"/>
-        </form>
+        <ChatInput isActive={inputActive} toggle={() => setInputActive(!inputActive)} />
       </div>
   )
 }
