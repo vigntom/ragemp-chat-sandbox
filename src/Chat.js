@@ -32,7 +32,7 @@ function FontSettingsPopup ({ isActive, setFont, fontSize, closePopups }) {
 }
 
 function SettingsPopup ({ isActive, settings, closePopup, setOption }) {
-  const [isFontsPopup, setIsFontsPopup] = useState(true)
+  const [isFontsPopup, setIsFontsPopup] = useState(false)
   const setFont = setOption('fontSize')
   const fontSize = settings.fontSize
 
@@ -72,7 +72,7 @@ function DayRPChat () {
       color: 'green'
     }]
   }
-  const [isSettings, setIsSettings] = useState(true)
+  const [isSettings, setIsSettings] = useState(false)
   const [settings, setSettings] = useState(defaultSettings)
 
   function toggleIsSettings (event) {
