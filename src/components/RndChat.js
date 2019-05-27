@@ -1,9 +1,12 @@
+/* globals mp */
 import React, { useState } from 'react'
 import { Rnd } from 'react-rnd'
 
 function RndChat ({children, dragHandleClassName }) {
   const [size, setSize] = useState({ width: 300, height: 150 })
   const [position, setPosition] = useState({ x: 10, y: 10 })
+
+
 
   return (
     <Rnd className="dayrp-chat__rnd-container"

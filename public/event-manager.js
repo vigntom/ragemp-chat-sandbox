@@ -20,10 +20,25 @@ const EventManager = (function createEventManager () {
     },
 
     trigger (event, args) {
-      const params = args ? JSON.parse(args) : ''
-      events[event].forEach(handler => handler(params))
+      events[event].forEach(handler => handler(args))
     }
   }
 }())
 
-exports = EventManager
+const chatAPI = {
+  push (text) {
+    EventManager.trigger('message', text)
+  },
+
+  clear () {
+    EventManager.trigger('clear')
+  },
+
+  activate () {
+    EventManager.trigger('activate')
+  },
+
+  show () {
+    EventManager.trigger('show')
+  }
+}
